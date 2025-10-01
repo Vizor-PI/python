@@ -11,6 +11,7 @@ dados = {
     "Memória": [],
     "Disco":[],
     "Rede": [],
+    "Processos": [],
     "Data_Boot": []
 }
 arquivo_csv = 'Dados-da-Maquina.csv'
@@ -19,24 +20,26 @@ arquivo_csv = 'Dados-da-Maquina.csv'
 def salvamento(valor):
     if valor == 1:
         dados = {
-            "User": "Vizor",
+            "User": "COD001",
             "Timestamp": [data_hora],
             "CPU": [cpu],
             "Memória": [memoria.percent],
             "Disco":[disco.percent],
             "Rede": [round((rede.bytes_recv/ 1024** 3),2)],
+            "Processos": [quantidade],
             "Data_Boot": [dataBoot]
             }
         df = pd.DataFrame(dados)
         df.to_csv("Dados-da-Maquina.csv", encoding="utf-8", index=False, sep=";")
     elif valor == 2:
         novalinha = {
-            "User": "Vizor",
+            "User": "COD001",
             "Timestamp": [data_hora],
             "CPU": [cpu],
             "Memória": [memoria.percent],
             "Disco":[disco.percent],
             "Rede": [round((rede.bytes_recv/ 1024** 3),2)],
+            "Processos": [quantidade],
             "Data_Boot": [dataBoot]
             }
         adicionar = pd.DataFrame(novalinha)
@@ -51,6 +54,7 @@ while True:
     cpu = psutil.cpu_percent(interval=None, percpu=False);
     rede = psutil.net_io_counters(pernic=False, nowrap=True)
     dataBoot = datetime.datetime.fromtimestamp(psutil.boot_time()).strftime("%Y-%m-%d %H:%M:%S")
+    
     #Parte dos processos
     quantidade = 0
     for processos in psutil.process_iter(['pid','name','username']):
@@ -73,7 +77,7 @@ while True:
 
     #Exibições
     print("_"*30)
-    print(f"Data e hora atual: {data_hora} disco usado: {disco.percent}% Memória usada {memoria.percent}% Frêquencia atual: {cpu}%, Rede: Data do Ultimo boot: ")
+    print(f"Data e hora atual: {data_hora} disco usado: {disco.percent}% Memória usada {memoria.percent}% Frêquencia atual: {cpu}%, Quantidade de processos: {quantidade}, Rede: Data do Ultimo boot: ")
 
     print("_"*30)
     time.sleep(10)
