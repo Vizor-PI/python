@@ -108,4 +108,4 @@ while True:
 
     print("_"*30)
     time.sleep(10)
-    s3.upload_file('Dados-da-Maquina.csv', 'raw-lucasaquino')
+    upload_file('Dados-da-Maquina.csv', 'raw-lucasaquino')
